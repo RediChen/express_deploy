@@ -27,8 +27,36 @@ const errContent = `
 
 //================== 設置路由架構
 app.get("/", (req, res) => {
-  res.send("歡迎來到首頁");
+  // res.send("歡迎來到首頁");
+  res.end(`
+<!DOCTYPE html>
+<html lang="zh-Hant-tw">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>首頁</title>
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+		/>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+	</head>
+  <body>
+  <div class="container">
+    <h1 class="my-5 mx-auto py-3 w-50 rounded-pill bg-primary-subtle text-center">歡迎來到首頁</h1>
+    <div class="text-center">
+    <a href="/singers" class="btn btn-primary">前往歌手頁面</a>
+    </div>
+    </div>
+	</body>
+</html>
+  `);
 });
+
+app.get("/singers", (req, res) => {
+  res.redirect("/singers/1.html");
+});
+
 
 app.get("/singers/:sid.html", (req, res) => {
   const { sid } = req.params;
@@ -72,14 +100,13 @@ app.get("/singers/:sid.html", (req, res) => {
     <script src="./main.js"></script>
 	</body>
 </html>
-
   `;
-  
-
   res.end(pageContent);
 });
 
-app.get("/", (req, res) => { });
+app.all("*", (req, res) => {
+  res.end(errContent);
+});
 
 //================== 監聽設置
 app.listen(PORT, () => {
